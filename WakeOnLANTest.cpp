@@ -4,10 +4,18 @@
 class WakeOnLAN
 {
 public:
+	
+	WakeOnLAN()
+	: bMACParsed{false}
+	{ }
+	
 	bool ParseMAC(const std::string& sMac)
 	{
-		return false;
+		return bMACParsed;
 	}
+	
+private:
+	bool bMACParsed;
 };
 
 #include "gmock/gmock.h"
