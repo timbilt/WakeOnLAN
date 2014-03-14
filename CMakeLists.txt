@@ -12,7 +12,7 @@ add_definitions(-std=c++0x)
 
 set(CMAKE_CXX_FLAGS "${CMAXE_CXX_FLAGS} -Wall")
 
-set(sources main.cpp WakeOnLAN.cpp)
+set(sources main.cpp WakeOnLANTest.cpp)
 
 add_executable(wol ${sources})
 
