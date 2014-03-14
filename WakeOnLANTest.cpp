@@ -1,5 +1,6 @@
 
 #include <string>
+#include "boost/regex.hpp"
 
 class WakeOnLAN
 {
@@ -11,6 +12,10 @@ public:
 	
 	bool ParseMAC(const std::string& sMac)
 	{
+		boost::regex exp ("^([0-9a-fA-F]{2}[:-]){5}([0-9a-fA-F]{2})$");
+		
+		bMACParsed = boost::regex_match(sMac, exp);
+		
 		return bMACParsed;
 	}
 	
