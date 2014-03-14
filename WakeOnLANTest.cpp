@@ -24,5 +24,5 @@ private:
 TEST(WakeOnLANTest, ParsesValidMACAddresses) {
 	WakeOnLAN wol;
 	
-	ASSERT_THAT(wol.ParseMAC(""), testing::Eq(true));
+	ASSERT_THAT(wol.ParseMAC("01:23:45:67:89:AB"), testing::Eq(true));
 }
