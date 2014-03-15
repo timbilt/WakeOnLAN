@@ -1,5 +1,4 @@
 
-#include <iostream>
 #include <string>
 #include "boost/regex.hpp"
 
@@ -58,6 +57,7 @@ public:
 	WakeOnLAN wol;
 	
 	unsigned char DefaultBytes[MAC_SIZE] { 0x01, 0x23, 0x45, 0x67, 0x89, 0xAB };
+	std::string DefaultMAC{"01:23:45:67:89:AB"};
 	
 	bool MatchesDefaultBytes(const unsigned char* const pBytes)
 	{		
@@ -72,12 +72,12 @@ public:
 };
 
 TEST_F(WakeOnLANTest, ParsesValidMACAddresses) {	
-	ASSERT_THAT(wol.ParseMAC("01:23:45:67:89:AB"), Eq(true));
+	ASSERT_THAT(wol.ParseMAC(DefaultMAC), Eq(true));
 }
 
 TEST_F(WakeOnLANTest, ConvertsMACStringToBytes)
 {
-	ASSERT_THAT(wol.ParseMAC("01:23:45:67:89:AB"), Eq(true));
+	ASSERT_THAT(wol.ParseMAC(DefaultMAC), Eq(true));
 	
 	ASSERT_THAT(MatchesDefaultBytes(wol.macBytes), Eq(true));
 }
