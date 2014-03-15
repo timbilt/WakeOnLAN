@@ -9,7 +9,8 @@ class WakeOnLAN
 public:
 	
 	WakeOnLAN()
-	: bMACParsed{false}
+	: bMACParsed{false},
+	  bMACBytesSet{false}
 	{ }
 	
 	bool ParseMAC(const std::string& sMac)
