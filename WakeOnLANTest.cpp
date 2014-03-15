@@ -30,9 +30,15 @@ public:
 		return MARKER_SIZE == std::count(pMarker, pMarker + MARKER_SIZE, MARKER_UNIT);
 	}
 	
-	bool MatchesMACAppended16Times(const unsigned char* const pPayload) const
+	bool MatchesMACAppended16Times(const unsigned char* const pMACBytes) const
 	{
-		return false;
+		for (int counter = 0; counter < 16; counter++)
+		{
+			if (memcmp(pMACBytes + MAC_SIZE * counter, wol.macBytes, MAC_SIZE) != 0)
+				return false;
+		}
+		
+		return true;
 	}
 };
 
@@ -56,7 +62,7 @@ TEST_F(WakeOnLANTest, InitializesPayloadMarker)
 
 TEST_F(WakeOnLANTest, AppendsMAC16TimesToPayload)
 {
-	auto payload = wol.AppendMACToPayload16Times();
+	auto pMACBytes = wol.AppendMACToPayload16Times();
 	
-	ASSERT_THAT(MatchesMACAppended16Times(payload), Eq(true));
+	ASSERT_THAT(MatchesMACAppended16Times(pMACBytes), Eq(true));
 }
