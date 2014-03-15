@@ -34,8 +34,13 @@ bool WakeOnLAN::SetMACBytes()
 	return true;
 }
 
-unsigned char* WakeOnLAN::SetPayloadMarker()
+const unsigned char* WakeOnLAN::SetPayloadMarker()
 {
 	auto vp = memset(payload, MARKER_UNIT, MARKER_SIZE);
 	return reinterpret_cast<unsigned char*>(vp);
+}
+
+const unsigned char* WakeOnLAN::AppendMACToPayload16Times()
+{
+	return payload;
 }
