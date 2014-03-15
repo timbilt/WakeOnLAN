@@ -64,7 +64,7 @@ const unsigned char* WakeOnLAN::AppendMACToPayload16Times()
 bool WakeOnLAN::SendPayload(const std::string& sHost, const std::string& sPort)
 {
 	int sockFD, ret, numBytesSent;
-    struct addrInfo hints, *pHostAddrInfo, *p;
+    struct addrinfo hints, *pHostAddrInfo, *p;
 
     memset(&hints, 0, sizeof hints);
     hints.ai_family = AF_UNSPEC;
