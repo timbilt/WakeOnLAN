@@ -27,7 +27,7 @@ public:
 	
 	bool PayloadMarkerInitialized(const unsigned char* const pMarker) const
 	{
-		return false;
+		return MARKER_SIZE == std::count(pMarker, pMarker + MARKER_SIZE, MARKER_UNIT);
 	}
 };
 
