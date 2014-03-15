@@ -36,5 +36,6 @@ bool WakeOnLAN::SetMACBytes()
 
 unsigned char* WakeOnLAN::SetPayloadMarker()
 {
-	return payload;
+	auto vp = memset(payload, MARKER_UNIT, MARKER_SIZE);
+	return reinterpret_cast<unsigned char*>(vp);
 }
