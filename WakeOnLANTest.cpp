@@ -1,4 +1,5 @@
 
+#include <iostream>
 #include <string>
 #include "boost/regex.hpp"
 
@@ -16,7 +17,10 @@ public:
 	{
 		boost::regex exp ("^([0-9a-fA-F]{2}[:-]){5}([0-9a-fA-F]{2})$");
 		
-		bMACParsed = boost::regex_match(sMac, exp);
+		if ((bMACParsed = boost::regex_match(sMac, exp))) {
+			mac = sMac;
+			bMACBytesSet = SetMACBytes();
+		}
 		
 		return bMACParsed;
 	}
@@ -24,7 +28,24 @@ public:
 	unsigned char macBytes[MAC_SIZE];
 	
 private:
+	
+	bool SetMACBytes()
+	{
+		if (!bMACParsed) return false;
+		
+		unsigned int macIndex;
+		
+		for (macIndex = 0; macIndex < MAC_SIZE; macIndex++)
+		{
+			macBytes[macIndex] = (unsigned char)strtol(mac.substr(macIndex*3, 2).data(), nullptr, 16);
+		}
+		
+		return true;
+	}
+	
 	bool bMACParsed;
+	bool bMACBytesSet;
+	std::string mac;
 };
 
 #include "gmock/gmock.h"
@@ -46,7 +67,7 @@ public:
 				return false;
 		}
 		
-		return false;
+		return true;
 	}
 };
 
