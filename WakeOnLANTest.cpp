@@ -1,52 +1,5 @@
 
-#include <string>
-#include "boost/regex.hpp"
-
-#define MAC_SIZE 6
-
-class WakeOnLAN
-{
-public:
-	
-	WakeOnLAN()
-	: bMACParsed{false},
-	  bMACBytesSet{false}
-	{ }
-	
-	bool ParseMAC(const std::string& sMac)
-	{
-		boost::regex exp ("^([0-9a-fA-F]{2}[:-]){5}([0-9a-fA-F]{2})$");
-		
-		if ((bMACParsed = boost::regex_match(sMac, exp))) {
-			mac = sMac;
-			bMACBytesSet = SetMACBytes();
-		}
-		
-		return bMACParsed;
-	}
-	
-	unsigned char macBytes[MAC_SIZE];
-	
-private:
-	
-	bool SetMACBytes()
-	{
-		if (!bMACParsed) return false;
-		
-		unsigned int macIndex;
-		
-		for (macIndex = 0; macIndex < MAC_SIZE; macIndex++)
-		{
-			macBytes[macIndex] = (unsigned char)strtol(mac.substr(macIndex*3, 2).data(), nullptr, 16);
-		}
-		
-		return true;
-	}
-	
-	bool bMACParsed;
-	bool bMACBytesSet;
-	std::string mac;
-};
+#include "WakeOnLAN.h"
 
 #include "gmock/gmock.h"
 
