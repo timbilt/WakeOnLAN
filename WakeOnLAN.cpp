@@ -42,5 +42,14 @@ const unsigned char* WakeOnLAN::SetPayloadMarker()
 
 const unsigned char* WakeOnLAN::AppendMACToPayload16Times()
 {
-	return payload;
+	unsigned char* pTemp, * pOrigin;
+	
+	pTemp = pOrigin = payload + MARKER_SIZE;
+	
+	for (int counter = 0; counter < 16; counter++)
+	{
+		memcpy(pTemp + MAC_SIZE * counter, macBytes, MAC_SIZE); 
+	}
+	
+	return pOrigin;
 }
