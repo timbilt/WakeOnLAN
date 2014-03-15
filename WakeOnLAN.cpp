@@ -63,5 +63,55 @@ const unsigned char* WakeOnLAN::AppendMACToPayload16Times()
 
 bool WakeOnLAN::SendPayload(const std::string& sHost, const std::string& sPort)
 {
-	return false;
+	int sockFD, ret, numBytesSent;
+    struct addrInfo hints, *pHostAddrInfo, *p;
+
+    memset(&hints, 0, sizeof hints);
+    hints.ai_family = AF_UNSPEC;
+    hints.ai_socktype = SOCK_DGRAM;
+
+    if ((ret = getaddrinfo(sHost.data(), sPort.data(), &hints, &pHostAddrInfo)) != 0) {
+        std::cerr << "\nError: getaddrinfo => " << gai_strerror(ret) << std::endl;
+        
+		return false;
+    }
+
+    for(p = pHostAddrInfo; p != nullptr; p = p->ai_next) {
+        if ((sockFD = socket(p->ai_family, 
+							  p->ai_socktype,
+							  p->ai_protocol)) == -1) 
+		{
+            std::cerr << "\nError: socket => unable to get file descriptor" << std::endl;
+            
+			continue;
+        }
+        else
+		{
+			break;
+		}
+    }
+
+    if (p == nullptr) {
+        std::cerr << "\nError: Failed to bind to a socket" << std::endl;
+		
+        return false;
+    }
+
+    if ((numBytesSent = sendto(sockFD, 
+								payload, 
+							    sizeof payload, 
+							    0,
+								p->ai_addr, 
+							    p->ai_addrlen)) == -1) 
+	{
+        std::cerr << "\nError: sendto => Unable to send data" << std::endl;
+		
+		return false;
+    }
+
+    freeaddrinfo(pHostAddrInfo);
+	
+    close(sockFD);
+
+    return true;
 }
