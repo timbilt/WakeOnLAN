@@ -66,3 +66,8 @@ TEST_F(WakeOnLANTest, AppendsMAC16TimesToPayload)
 	
 	ASSERT_THAT(MatchesMACAppended16Times(pMACBytes), Eq(true));
 }
+
+TEST_F(WakeOnLANTest, SendPayloadData)
+{
+	ASSERT_THAT(wol.SendPayload("HOST", "PORT"), Eq(true));
+}

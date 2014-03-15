@@ -15,6 +15,7 @@ public:
 	bool ParseMAC(const std::string& sMac);
 	const unsigned char* SetPayloadMarker();
 	const unsigned char* AppendMACToPayload16Times();
+	bool SendPayload(const std::string& sHost, const std::string& sPort);
 	
 	unsigned char macBytes[MAC_SIZE];
 	

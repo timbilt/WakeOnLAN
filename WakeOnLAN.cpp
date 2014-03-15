@@ -1,4 +1,11 @@
 
+#include <errno.h>
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <arpa/inet.h>
+#include <netdb.h>
+
 #include "boost/regex.hpp"
 
 #include "WakeOnLAN.h"
@@ -52,4 +59,9 @@ const unsigned char* WakeOnLAN::AppendMACToPayload16Times()
 	}
 	
 	return pOrigin;
+}
+
+bool WakeOnLAN::SendPayload(const std::string& sHost, const std::string& sPort)
+{
+	return false;
 }
