@@ -33,3 +33,8 @@ bool WakeOnLAN::SetMACBytes()
 	
 	return true;
 }
+
+unsigned char* WakeOnLAN::SetPayloadMarker()
+{
+	return payload;
+}

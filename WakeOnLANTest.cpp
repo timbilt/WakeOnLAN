@@ -2,6 +2,7 @@
 #include "WakeOnLAN.h"
 
 #include "gmock/gmock.h"
+#include <algorithm>
 
 using namespace testing;
 
@@ -13,7 +14,7 @@ public:
 	unsigned char DefaultBytes[MAC_SIZE] { 0x01, 0x23, 0x45, 0x67, 0x89, 0xAB };
 	std::string DefaultMAC{"01:23:45:67:89:AB"};
 	
-	bool MatchesDefaultBytes(const unsigned char* const pBytes)
+	bool MatchesDefaultBytes(const unsigned char* const pBytes) const
 	{		
 		for (int index = 0; index < MAC_SIZE; index++)
 		{
@@ -22,6 +23,11 @@ public:
 		}
 		
 		return true;
+	}
+	
+	bool PayloadMarkerInitialized(const unsigned char* const pMarker) const
+	{
+		return false;
 	}
 };
 
@@ -34,4 +40,11 @@ TEST_F(WakeOnLANTest, ConvertsMACStringToBytes)
 	ASSERT_THAT(wol.ParseMAC(DefaultMAC), Eq(true));
 	
 	ASSERT_THAT(MatchesDefaultBytes(wol.macBytes), Eq(true));
+}
+
+TEST_F(WakeOnLANTest, InitializesPayloadMarker)
+{
+	auto payload = wol.SetPayloadMarker();
+	
+	ASSERT_THAT(PayloadMarkerInitialized(payload), Eq(true));
 }

@@ -13,6 +13,7 @@ public:
 	
 	WakeOnLAN();	
 	bool ParseMAC(const std::string& sMac);
+	unsigned char* SetPayloadMarker();
 	
 	unsigned char macBytes[MAC_SIZE];
 	
@@ -23,6 +24,7 @@ private:
 	bool bMACParsed;
 	bool bMACBytesSet;
 	std::string mac;
+	unsigned char payload[MARKER_SIZE + MAC_SIZE * 16];
 };
 
 #endif // WAKEONLAN_
