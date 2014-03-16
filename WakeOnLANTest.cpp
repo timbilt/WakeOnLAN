@@ -69,5 +69,5 @@ TEST_F(WakeOnLANTest, AppendsMAC16TimesToPayload)
 
 TEST_F(WakeOnLANTest, SendPayloadData)
 {
-	ASSERT_THAT(wol.SendPayload("HOST", "PORT"), Eq(true));
+	ASSERT_THAT(wol.SendPayload("www.google.com", "50009"), Eq(true));
 }

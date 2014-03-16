@@ -13,7 +13,10 @@
 WakeOnLAN::WakeOnLAN()
 	: bMACParsed{false},
 	  bMACBytesSet{false}
-{ }
+{ 
+	SetPayloadMarker();
+}
+
 
 bool WakeOnLAN::ParseMAC(const std::string& sMac)
 {
@@ -37,6 +40,8 @@ bool WakeOnLAN::SetMACBytes()
 	{
 		macBytes[macIndex] = (unsigned char)strtol(mac.substr(macIndex*3, 2).data(), nullptr, 16);
 	}
+	
+	AppendMACToPayload16Times();
 	
 	return true;
 }
@@ -96,6 +101,10 @@ bool WakeOnLAN::SendPayload(const std::string& sHost, const std::string& sPort)
 		
         return false;
     }
+    
+    int iBroadcast = 1;
+    if (sHost == "255.255.255.255")
+		setsockopt(sockFD, SOL_SOCKET, SO_BROADCAST, &iBroadcast, sizeof iBroadcast);
 
     if ((numBytesSent = sendto(sockFD, 
 								payload, 
